@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const exec = require('child_process').exec
+// const checkSimple = require('../middleware/check-simple')
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,7 +16,23 @@ const storage = multer.diskStorage({
  
 const upload = multer({ storage: storage })
 
-router.post('/upload', upload.single('image'), (req, res, next) => {
+router.post('/upload',upload.single('image'), (req, res, next) => {
+  const token = req.body.token;
+  console.log(req.body);
+  if(!token){
+          console.log('Your header has to contain Authorization field!')
+          return res.status(400).json({
+              message: "Your body has to contain 'token' field!"
+          });
+      }
+      if(token == "blacksiyahblack194119421943"){
+          console.log("Auth succesful");
+      }else{
+          console.log('Auth failed!')
+          return res.status(401).json({
+              message: "Auth failed"
+          });
+      }
   const file = req.file
   if (!file) {
     const error = new Error('Please upload a file')
