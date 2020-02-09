@@ -51,6 +51,7 @@ router.post('/upload',upload.single('image'), (req, res, next) => {
   })
   child.on('close', function(code) {
       console.log('closing code: ' + code)
+      console.log(Date.now())
       res.end(returnData)
   })
 })
